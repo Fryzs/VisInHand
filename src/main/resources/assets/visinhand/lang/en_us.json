@@ -1,0 +1,9 @@
+{
+  "screen.visinhand.focus_picker": "Wand Focus",
+  "screen.visinhand.remove_focus": "Remove focus",
+  "screen.visinhand.no_foci": "No foci in your inventory or focus pouches",
+  "screen.visinhand.area_size": "Area size",
+  "screen.visinhand.area_size.tip": "Architect focus: make the area one step bigger (wraps back to the start)",
+  "screen.visinhand.area_axis": "Area axis",
+  "screen.visinhand.area_axis.tip": "Architect focus: grow on all axes, or only X, Z or Y"
+}

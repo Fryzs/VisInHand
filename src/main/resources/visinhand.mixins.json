@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.visinhand.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "EssentiaTubeMixin",
+    "ItemWandMixin",
+    "ScanningManagerMixin",
+    "ScanRaycastHelperMixin",
+    "SpellTargetMixin",
+    "TraceAnchorMixin"
+  ],
+  "client": [
+    "client.CasterKeyHandlerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

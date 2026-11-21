@@ -1,0 +1,9 @@
+{
+  "screen.visinhand.focus_picker": "Фокус жезла",
+  "screen.visinhand.remove_focus": "Зняти фокус",
+  "screen.visinhand.no_foci": "Немає фокусів в інвентарі чи сумках для фокусів",
+  "screen.visinhand.area_size": "Розмір області",
+  "screen.visinhand.area_size.tip": "Фокус «Архітектор»: збільшити область на крок (після максимуму — знову з початку)",
+  "screen.visinhand.area_axis": "Вісь області",
+  "screen.visinhand.area_axis.tip": "Фокус «Архітектор»: рости по всіх осях або лише по X, Z чи Y"
+}
