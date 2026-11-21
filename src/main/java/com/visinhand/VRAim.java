@@ -45,22 +45,32 @@ public final class VRAim {
 
     /** The controller of the hand that holds a Thaumaturge item, preferring the main hand. */
     public static @Nullable VRBodyPartData toolController(@Nullable Entity entity) {
-        return entity instanceof LivingEntity living ? controller(living, toolHand(living)) : null;
+        return toolController(entity, THAUMATURGE);
+    }
+
+    /** The controller of the hand that holds an item of mod {@code namespace}, main hand first. */
+    public static @Nullable VRBodyPartData toolController(@Nullable Entity entity, String namespace) {
+        return entity instanceof LivingEntity living ? controller(living, toolHand(living, namespace)) : null;
     }
 
     /** The hand holding a Thaumaturge item: main hand first, then off hand, else main hand. */
     public static InteractionHand toolHand(LivingEntity entity) {
-        if (isThaumaturgeItem(entity.getMainHandItem())) {
+        return toolHand(entity, THAUMATURGE);
+    }
+
+    /** The hand holding an item of mod {@code namespace}: main hand first, then off hand, else main hand. */
+    public static InteractionHand toolHand(LivingEntity entity, String namespace) {
+        if (isModItem(entity.getMainHandItem(), namespace)) {
             return InteractionHand.MAIN_HAND;
         }
-        if (isThaumaturgeItem(entity.getOffhandItem())) {
+        if (isModItem(entity.getOffhandItem(), namespace)) {
             return InteractionHand.OFF_HAND;
         }
         return InteractionHand.MAIN_HAND;
     }
 
-    private static boolean isThaumaturgeItem(ItemStack stack) {
-        return !stack.isEmpty() && THAUMATURGE.equals(BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace());
+    private static boolean isModItem(ItemStack stack, String namespace) {
+        return !stack.isEmpty() && namespace.equals(BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace());
     }
 
     /** Same as {@link Entity#pick} but casting the ray from the controller. */

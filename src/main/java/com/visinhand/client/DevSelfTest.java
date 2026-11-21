@@ -6,23 +6,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.Screenshot;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 /**
  * Dev-only check, enabled by {@code -Dvisinhand.selftest=true} ({@code ./gradlew runSelftest}):
- * waits for the first menu, opens the focus picker with sample foci, saves
- * {@code run/screenshots/visinhand_selftest.png} and quits the game. A watchdog closes the game
- * after two minutes even if a step never happens.
+ * waits for the first menu, opens the focus picker with sample foci (when Thaumaturge is
+ * installed), saves {@code run/screenshots/visinhand_selftest.png} and quits the game. A watchdog
+ * closes the game after two minutes even if a step never happens.
  */
-@EventBusSubscriber(modid = VisInHand.MOD_ID, value = Dist.CLIENT)
 public final class DevSelfTest {
-    private static final boolean ENABLED = Boolean.getBoolean("visinhand.selftest");
+    static final boolean ENABLED = Boolean.getBoolean("visinhand.selftest");
     private static final int SETTLE_TICKS = 40;
     private static final int RENDER_TICKS = 20;
-
     private static final int WATCHDOG_TICKS = 20 * 120;
 
     private static int ticks;
@@ -31,11 +27,7 @@ public final class DevSelfTest {
 
     private DevSelfTest() {}
 
-    @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
-        if (!ENABLED) {
-            return;
-        }
         Minecraft mc = Minecraft.getInstance();
         // Watchdog: whatever happens, never leave a test game running.
         if (++totalTicks > WATCHDOG_TICKS && stage < 3) {
@@ -49,14 +41,18 @@ public final class DevSelfTest {
                 // Any menu once loading is over (a fresh profile shows the accessibility screen first).
                 boolean loaded = mc.getOverlay() == null && mc.screen != null && mc.player == null;
                 if (loaded && ++ticks >= SETTLE_TICKS) {
-                    List<ItemStack> sample = BuiltInRegistries.ITEM.keySet().stream()
-                            .filter(id -> id.getNamespace().equals("thaumaturge") && id.getPath().contains("focus"))
-                            .sorted()
-                            .limit(7)
-                            .map(id -> new ItemStack(BuiltInRegistries.ITEM.get(id)))
-                            .toList();
-                    VisInHand.LOGGER.info("[selftest] opening focus picker with {} sample foci", sample.size());
-                    mc.setScreen(new FocusPickerScreen(sample));
+                    if (ModList.get().isLoaded("thaumaturge")) {
+                        List<ItemStack> sample = BuiltInRegistries.ITEM.keySet().stream()
+                                .filter(id -> id.getNamespace().equals("thaumaturge") && id.getPath().contains("focus"))
+                                .sorted()
+                                .limit(7)
+                                .map(id -> new ItemStack(BuiltInRegistries.ITEM.get(id)))
+                                .toList();
+                        VisInHand.LOGGER.info("[selftest] opening focus picker with {} sample foci", sample.size());
+                        mc.setScreen(VRFocusInput.demoPicker(sample));
+                    } else {
+                        VisInHand.LOGGER.info("[selftest] Thaumaturge not installed, skipping the focus picker");
+                    }
                     ticks = 0;
                     stage = 1;
                 }

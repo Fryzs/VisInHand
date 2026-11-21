@@ -62,6 +62,8 @@ dependencies {
     // Thaumaturge has no up-to-date public maven. Put its jar into libs/ (local only, never
     // shipped or committed). Mixins target it by name; only the client focus panel calls its API.
     compileOnly fileTree(dir: 'libs', include: 'thaumaturge-*.jar')
+    // Same for Industrial Craft 2: Nostalgia (its laser hooks use the ic2 Vector3 type).
+    compileOnly fileTree(dir: 'libs', include: 'industrial-craft-2-*.jar')
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {

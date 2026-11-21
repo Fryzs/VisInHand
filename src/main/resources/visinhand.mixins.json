@@ -9,10 +9,12 @@
     "ScanningManagerMixin",
     "ScanRaycastHelperMixin",
     "SpellTargetMixin",
-    "TraceAnchorMixin"
+    "TraceAnchorMixin",
+    "ic2.MiningLaserMixin"
   ],
   "client": [
-    "client.CasterKeyHandlerMixin"
+    "client.CasterKeyHandlerMixin",
+    "ic2.client.KeyboardClientMixin"
   ],
   "injectors": {
     "defaultRequire": 0

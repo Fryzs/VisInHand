@@ -7,7 +7,10 @@ modId = "${mod_id}"
 version = "${mod_version}"
 displayName = "${mod_name}"
 description = '''
-Makes Thaumaturge playable in VR with Vivecraft: wands, foci, the thaumometer and other aimed tools follow the controller instead of the headset.
+VR compatibility for Vivecraft players. Each part turns on only when its mod is installed:
+- Thaumaturge: wands, foci, the thaumometer and other aimed tools follow the controller; a pointable focus picker replaces the mouse radial.
+- Industrial Craft 2: the mining laser fires from the controller; stick movement counts as "forward" for jetpacks and quantum leggings.
+- CC: Tweaked: the VR keyboard opens with computer and pocket computer screens.
 '''
 
 [[mixins]]
@@ -29,8 +32,22 @@ side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "thaumaturge"
-type = "required"
+type = "optional"
 versionRange = "${thaumaturge_version_range}"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "ic2"
+type = "optional"
+versionRange = "[21.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "computercraft"
+type = "optional"
+versionRange = "[1.110,)"
 ordering = "AFTER"
 side = "BOTH"
 
